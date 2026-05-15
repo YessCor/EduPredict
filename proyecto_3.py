@@ -56,17 +56,8 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.model_selection import cross_val_score
 import numpy as np
 
-# Dataset simulado (edupredict.csv)
-data = {
-    "Promedio": [2.5,3.8,4.2,2.8,3.6,2.7,4.5,3.1,4.0,2.4],
-    "Fallas": [18,4,1,15,5,17,0,10,2,20],
-    "Horas_Estudio": [1,5,6,1,4,1,7,2,5,0],
-    "Internet": ["No","Si","Si","No","Si","No","Si","Si","Si","No"],
-    "Trabaja": ["Si","No","No","Si","No","Si","No","Si","No","Si"],
-    "Deserta": [1,0,0,1,0,1,0,1,0,1]
-}
-
-df = pd.DataFrame(data)
+# Dataset cargado desde archivo CSV independiente
+df = pd.read_csv("dataset.csv")
 
 print("Dataset original:")
 display(df)

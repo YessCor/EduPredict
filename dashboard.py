@@ -424,15 +424,7 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    data = {
-        "Promedio": [2.5, 3.8, 4.2, 2.8, 3.6, 2.7, 4.5, 3.1, 4.0, 2.4],
-        "Fallas": [18, 4, 1, 15, 5, 17, 0, 10, 2, 20],
-        "Horas_Estudio": [1, 5, 6, 1, 4, 1, 7, 2, 5, 0],
-        "Internet": ["No", "Si", "Si", "No", "Si", "No", "Si", "Si", "Si", "No"],
-        "Trabaja": ["Si", "No", "No", "Si", "No", "Si", "No", "Si", "No", "Si"],
-        "Deserta": [1, 0, 0, 1, 0, 1, 0, 1, 0, 1]
-    }
-    df = pd.DataFrame(data)
+    df = pd.read_csv("dataset.csv")
     df_display = df.copy()
     le_internet = LabelEncoder()
     le_trabaja = LabelEncoder()
