@@ -106,9 +106,9 @@ El dashboard muestra:
 ## 👥 Miembros
 
 - [Yessid Cordero](https://github.com/YessCor)
-- [Bleidys Larios] (https://github.com/bleidys16)
-- [Melany Tesillo] (https://github.com/mptse)
-- [Emily Monterrosa] (https://github.com/emilymontec)
+- [Bleidys Larios](https://github.com/bleidys16)
+- [Melany Tesillo](https://github.com/mptse)
+- [Emily Monterrosa](https://github.com/emilymontec)
 
 
 ## 🤝 Contribuciones
