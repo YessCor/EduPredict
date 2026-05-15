@@ -19,18 +19,18 @@ st.set_page_config(
 st.markdown("""
 <style>
 :root {
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
-    --success: #10b981;
-    --danger: #ef4444;
-    --background: #f0f2f5;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #14b8a6;
+    --danger: #be185d;
+    --background: #f8fafc;
     --card-bg: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
+    --text-main: #0f172a;
+    --text-muted: #475569;
     --border: #e2e8f0;
     --radius-lg: 16px;
     --radius-md: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -264,8 +264,8 @@ st.markdown("""
 }
 
 .ep-insight-card {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border: 1px solid #bae6fd;
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+    border: 1px solid #99f6e4;
     border-radius: var(--radius-md);
     padding: 20px;
 }
@@ -361,8 +361,8 @@ st.markdown("""
 }
 
 .badge-safe {
-    background: #dcfce7;
-    color: #15803d;
+    background: #ccfbf1;
+    color: #0d9488;
 }
 
 /* Result box */
@@ -376,12 +376,12 @@ st.markdown("""
 
 .ep-result-box.danger {
     background: linear-gradient(135deg, #fff1f2, #fce7f3);
-    border: 2px solid #fda4af;
+    border: 2px solid #fecdd3;
 }
 
 .ep-result-box.safe {
-    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-    border: 2px solid #86efac;
+    background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+    border: 2px solid #99f6e4;
 }
 
 .ep-result-icon {
@@ -427,6 +427,7 @@ st.markdown("""
 def load_data(filepath, modified_time):
     df = pd.read_csv(filepath)
     df_display = df.copy()
+    df_display["Estado"] = df_display["Deserta"].map({0: "Estable", 1: "En Riesgo"})
     le_internet = LabelEncoder()
     le_trabaja = LabelEncoder()
     df["Internet"] = le_internet.fit_transform(df["Internet"])
@@ -483,12 +484,12 @@ if page == "Inicio":
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        metric_card("Total estudiantes", len(df), "en el dataset actual", "#3b82f6")
+        metric_card("Total estudiantes", len(df), "en el dataset actual", "#14b8a6")
     with col2:
         tasa = (df['Deserta'].sum() / len(df)) * 100
-        metric_card("Tasa de deserción", f"{tasa:.0f}%", f"{df['Deserta'].sum()} de {len(df)} estudiantes", "#f43f5e")
+        metric_card("Tasa de deserción", f"{tasa:.0f}%", f"{df['Deserta'].sum()} de {len(df)} estudiantes", "#be185d")
     with col3:
-        metric_card("Variables clave", "5", "analizadas por el modelo AI", "#10b981")
+        metric_card("Variables clave", "5", "analizadas por el modelo AI", "#6366f1") # A harmonious indigo for variety
         
     st.markdown("<div class='ep-section-title'>Dataset de Estudiantes</div>", unsafe_allow_html=True)
     
@@ -528,41 +529,43 @@ elif page == "Análisis Exploratorio":
     with col1:
         st.markdown("<div class='ep-card'>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card-title'>📈 Promedio vs Deserción</div>", unsafe_allow_html=True)
-        fig1 = plotly_ex.scatter(df_display, x="Promedio", y="Deserta", color="Deserta", 
-                                 color_discrete_map={0: "#10b981", 1: "#f43f5e"},
-                                 labels={"Deserta": "Estado"},)
+        fig1 = plotly_ex.scatter(df_display, x="Promedio", y="Deserta", color="Estado", 
+                                 color_discrete_map={"Estable": "#14b8a6", "En Riesgo": "#be185d"},
+                                 labels={"Estado": "Estado"},)
         fig1.update_layout(
-            plot_bgcolor='#ffffff',
-            paper_bgcolor='#ffffff',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             font_family="Inter, sans-serif",
-            font_color="#000000",
-            margin=dict(l=10, r=10, t=10, b=30),
+            font_color="#0f172a",
+            margin=dict(l=10, r=10, t=40, b=30),
             height=300,
             showlegend=True,
             legend=dict(
                 orientation="h",
                 yanchor="bottom",
-                y=-0.3,
+                y=1.02,
                 xanchor="center",
                 x=0.5,
                 bgcolor="rgba(255,255,255,0)",
                 font=dict(size=11)
             ),
             xaxis=dict(
-                title="Promedio Académico",
+                title="<b>Promedio Académico</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0'
+                linecolor='#cbd5e1',
+                zeroline=False
             ),
             yaxis=dict(
-                title="Deserción",
+                title="<b>Deserción</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0',
+                linecolor='#cbd5e1',
                 tickvals=[0, 1],
-                ticktext=['No Deserta', 'Deserta']
+                ticktext=['No Deserta', 'Deserta'],
+                zeroline=False
             )
         )
-        fig1.update_traces(marker=dict(size=16, line=dict(width=2, color='#ffffff'), opacity=0.9))
-        st.plotly_chart(fig1, use_container_width=True)
+        fig1.update_traces(marker=dict(size=16, line=dict(width=1, color='#000000'), opacity=0.9))
+        st.plotly_chart(fig1, use_container_width=True, theme=None)
         st.markdown("""
             <div style="font-size: 12px; color: #64748b; text-align: center; margin-top: 8px;">
                 Estudiantes con promedio bajo (< 3.0) tienen mayor riesgo de deserción
@@ -573,41 +576,43 @@ elif page == "Análisis Exploratorio":
     with col2:
         st.markdown("<div class='ep-card'>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card-title'>📉 Fallas vs Deserción</div>", unsafe_allow_html=True)
-        fig2 = plotly_ex.scatter(df_display, x="Fallas", y="Deserta", color="Deserta", 
-                                 color_discrete_map={0: "#10b981", 1: "#f43f5e"},
-                                 labels={"Deserta": "Estado"})
+        fig2 = plotly_ex.scatter(df_display, x="Fallas", y="Deserta", color="Estado", 
+                                 color_discrete_map={"Estable": "#14b8a6", "En Riesgo": "#be185d"},
+                                 labels={"Estado": "Estado"})
         fig2.update_layout(
-            plot_bgcolor='#ffffff',
-            paper_bgcolor='#ffffff',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             font_family="Inter, sans-serif",
-            font_color="#000000",
-            margin=dict(l=10, r=10, t=10, b=30),
+            font_color="#0f172a",
+            margin=dict(l=10, r=10, t=40, b=30),
             height=300,
             showlegend=True,
             legend=dict(
                 orientation="h",
                 yanchor="bottom",
-                y=-0.3,
+                y=1.02,
                 xanchor="center",
                 x=0.5,
                 bgcolor="rgba(255,255,255,0)",
                 font=dict(size=11)
             ),
             xaxis=dict(
-                title="Número de Fallas",
+                title="<b>Número de Fallas</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0'
+                linecolor='#cbd5e1',
+                zeroline=False
             ),
             yaxis=dict(
-                title="Deserción",
+                title="<b>Deserción</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0',
+                linecolor='#cbd5e1',
                 tickvals=[0, 1],
-                ticktext=['No Deserta', 'Deserta']
+                ticktext=['No Deserta', 'Deserta'],
+                zeroline=False
             )
         )
-        fig2.update_traces(marker=dict(size=16, line=dict(width=2, color='#ffffff'), opacity=0.9))
-        st.plotly_chart(fig2, use_container_width=True)
+        fig2.update_traces(marker=dict(size=16, line=dict(width=1, color='#000000'), opacity=0.9))
+        st.plotly_chart(fig2, use_container_width=True, theme=None)
         st.markdown("""
             <div style="font-size: 12px; color: #64748b; text-align: center; margin-top: 8px;">
                 Más de 10 fallas incrementan significativamente el riesgo
@@ -620,14 +625,14 @@ elif page == "Análisis Exploratorio":
     
     col_h1, col_h2 = st.columns([1, 1])
     with col_h1:
-        fig3 = plotly_ex.histogram(df_display, x="Horas_Estudio", color="Deserta", barmode="group",
-                                    color_discrete_map={0: "#10b981", 1: "#f43f5e"},
+        fig3 = plotly_ex.histogram(df_display, x="Horas_Estudio", color="Estado", barmode="group",
+                                    color_discrete_map={"Estable": "#14b8a6", "En Riesgo": "#be185d"},
                                     nbins=8)
         fig3.update_layout(
-            plot_bgcolor='#ffffff',
-            paper_bgcolor='#ffffff',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             font_family="Inter, sans-serif",
-            font_color="#000000",
+            font_color="#0f172a",
             margin=dict(l=10, r=10, t=10, b=30),
             height=280,
             showlegend=True,
@@ -640,19 +645,19 @@ elif page == "Análisis Exploratorio":
                 font=dict(size=11)
             ),
             xaxis=dict(
-                title="Horas de Estudio/Semana",
+                title="<b>Horas de Estudio/Semana</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0'
+                linecolor='#cbd5e1'
             ),
             yaxis=dict(
-                title="Cantidad de Estudiantes",
+                title="<b>Cantidad de Estudiantes</b>",
                 gridcolor='#f1f5f9',
-                linecolor='#e2e8f0'
+                linecolor='#cbd5e1'
             ),
             bargap=0.2
         )
         fig3.update_traces(opacity=0.85)
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, use_container_width=True, theme=None)
     
     with col_h2:
         st.markdown("""
@@ -700,7 +705,7 @@ elif page == "Simulador de Riesgo":
             is_risk = prob >= 0.5
             
             box_class = "danger" if is_risk else "safe"
-            color = "#ef4444" if is_risk else "#10b981"
+            color = "#be185d" if is_risk else "#14b8a6"
             status = "ALTO RIESGO" if is_risk else "RIESGO BAJO"
             icon = "⚠️" if is_risk else "✅"
             
@@ -735,7 +740,7 @@ elif page == "Métricas del Modelo":
         st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card'>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card-title'>Validación Cruzada (5 Folds)</div>", unsafe_allow_html=True)
-        st.bar_chart(cv_scores, color="#3b82f6")
+        st.bar_chart(cv_scores, color="#14b8a6")
         st.markdown("</div>", unsafe_allow_html=True)
         
     with col2:
@@ -744,16 +749,18 @@ elif page == "Métricas del Modelo":
         importances = pd.Series(model_rf.feature_importances_, index=X.columns).sort_values(ascending=True)
         fig_imp = plotly_ex.bar(importances, orientation='h', 
                                 title="<b>Factores que más pesan</b>",
-                               color_discrete_sequence=["#3b82f6"])
+                                color_discrete_sequence=["#14b8a6"])
         fig_imp.update_layout(
-            plot_bgcolor='#ffffff',
-            paper_bgcolor='#ffffff',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             font_family="Inter, sans-serif",
-            font_color="#000000",
+            font_color="#0f172a",
             title_font_size=14,
             showlegend=False,
             margin=dict(l=20, r=20, t=40, b=20),
-            height=280
+            height=280,
+            xaxis=dict(gridcolor='#f1f5f9', linecolor='#cbd5e1'),
+            yaxis=dict(gridcolor='#f1f5f9', linecolor='#cbd5e1')
         )
-        st.plotly_chart(fig_imp, use_container_width=True)
+        st.plotly_chart(fig_imp, use_container_width=True, theme=None)
         st.markdown("</div>", unsafe_allow_html=True)
