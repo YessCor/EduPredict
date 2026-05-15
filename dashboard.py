@@ -731,7 +731,7 @@ elif page == "Métricas del Modelo":
         st.markdown(f"""
             <div class="ep-card" style="text-align: center;">
                 <div class="ep-card-title">Accuracy General</div>
-                <div style="font-size: 56px; font-weight: 700; color: #10b981; line-height: 1.2;">{acc*100:.0f}%</div>
+                <div style="font-size: 56px; font-weight: 700; color: #14b8a6; line-height: 1.2;">{acc*100:.0f}%</div>
                 <div class="ep-metric-sub">Basado en el conjunto de prueba</div>
             </div>
         """, unsafe_allow_html=True)
@@ -740,7 +740,19 @@ elif page == "Métricas del Modelo":
         st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card'>", unsafe_allow_html=True)
         st.markdown("<div class='ep-card-title'>Validación Cruzada (5 Folds)</div>", unsafe_allow_html=True)
-        st.bar_chart(cv_scores, color="#14b8a6")
+        cv_df = pd.DataFrame({'Fold': [f'F{i+1}' for i in range(len(cv_scores))], 'Score': cv_scores})
+        fig_cv = plotly_ex.bar(cv_df, x='Fold', y='Score', color_discrete_sequence=["#14b8a6"])
+        fig_cv.update_layout(
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font_family="Inter, sans-serif",
+            font_color="#0f172a",
+            margin=dict(l=60, r=20, t=20, b=40),
+            height=220,
+            xaxis=dict(title="Accuracy", gridcolor='#f1f5f9', linecolor='#cbd5e1'),
+            yaxis=dict(title="", gridcolor='#f1f5f9', linecolor='#cbd5e1', range=[0, 1.1])
+        )
+        st.plotly_chart(fig_cv, use_container_width=True, theme=None)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with col2:
@@ -757,10 +769,10 @@ elif page == "Métricas del Modelo":
             font_color="#0f172a",
             title_font_size=14,
             showlegend=False,
-            margin=dict(l=20, r=20, t=40, b=20),
+            margin=dict(l=120, r=20, t=40, b=40),
             height=280,
-            xaxis=dict(gridcolor='#f1f5f9', linecolor='#cbd5e1'),
-            yaxis=dict(gridcolor='#f1f5f9', linecolor='#cbd5e1')
+            xaxis=dict(title="Importancia Relativa", gridcolor='#f1f5f9', linecolor='#cbd5e1'),
+            yaxis=dict(title="", gridcolor='#f1f5f9', linecolor='#cbd5e1')
         )
         st.plotly_chart(fig_imp, use_container_width=True, theme=None)
         st.markdown("</div>", unsafe_allow_html=True)
