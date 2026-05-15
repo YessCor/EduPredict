@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0+-red.svg)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-0.24+-orange.svg)
-![Licencia](https://img.shields.io/badge/Licencia-MIT-blue.svg)
 
 **EduPredict** es un sistema inteligente de predicción de deserción estudiantil que utiliza el Aprendizaje Automático para identificar a los estudiantes en riesgo de abandono escolar de manera temprana y proporcionar recomendaciones de apoyo personalizadas. Esta plataforma permite a las instituciones educativas intervenir de manera proactiva y mejorar las tasas de retención estudiantil.
 
