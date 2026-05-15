@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -423,8 +424,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 @st.cache_data
-def load_data():
-    df = pd.read_csv("dataset.csv")
+def load_data(filepath, modified_time):
+    df = pd.read_csv(filepath)
     df_display = df.copy()
     le_internet = LabelEncoder()
     le_trabaja = LabelEncoder()
@@ -432,7 +433,9 @@ def load_data():
     df["Trabaja"] = le_trabaja.fit_transform(df["Trabaja"])
     return df, df_display
 
-df, df_display = load_data()
+file_path = "dataset.csv"
+modified_time = os.path.getmtime(file_path) if os.path.exists(file_path) else 0
+df, df_display = load_data(file_path, modified_time)
 
 @st.cache_resource
 def train_models(df):
