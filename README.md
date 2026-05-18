@@ -1,129 +1,229 @@
-# EduPredict 🎓
+# EduPredict 🧠🎓
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0+-red.svg)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-0.24+-orange.svg)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0%2B-red.svg)
+![Scikit-learn](https://img.shields.io/badge/Scikit-learn-0.24%2B-orange.svg)
 
-**EduPredict** es un sistema inteligente de predicción de deserción estudiantil que utiliza el Aprendizaje Automático para identificar a los estudiantes en riesgo de abandono escolar de manera temprana y proporcionar recomendaciones de apoyo personalizadas. Esta plataforma permite a las instituciones educativas intervenir de manera proactiva y mejorar las tasas de retención estudiantil.
+**EduPredict** es una plataforma de **predicción de riesgo de deserción estudiantil** usando **Machine Learning**. Permite:
+- Visualizar análisis exploratorio del dataset.
+- Entrenar y evaluar un modelo (Random Forest).
+- Realizar **predicciones en tiempo real** con un simulador.
 
-## ✨ Características
+---
 
-### Panel de Control Integral
-- **Real-time Analytics**: Visualizaciones interactivas que muestran las métricas clave de los estudiantes
-- **Model Performance Tracking**: Comparación visual de múltiples modelos de ML
-- **Data Exploration**: Análisis detallado de los datos de los estudiantes con filtros avanzados
+## Objetivo del proyecto
+Construir un sistema tipo consultoría de IA que, a partir de variables académicas y socioeducativas, determine si un estudiante está **en riesgo de desertar** para habilitar intervenciones tempranas y mejorar la retención.
 
-### Núcleo de Aprendizaje Automático
-- **Multiple Algorithms**: Compara Regresión Logística, Random Forest, Máquina de Vectores de Soporte, Impulso de Gradiente
-- **Cross-Validation**: Asegura la robustez del modelo con validación k-fold
-- **Predictive Analytics**: Predice el riesgo de deserción con alta precisión
+**Target (variable objetivo):** `Deserta` (1 = Deserción, 0 = No deserción).
 
-### Interfaz de Usuario
-- **Modern Design**: Diseño moderno, intuitivo y responsivo
-- **Easy Navigation**: Navegación simple por barra lateral con secciones claras
-- **Quick Predictions**: Predicciones instantáneas con explicaciones detalladas de los resultados
+---
 
-## 🚀 Inicio Rápido
+## Requisitos e instalación
 
-### Requisitos Previos
-- Python 3.8+
-- pip (Instalador de paquetes de Python)
+### 1) Crear entorno (recomendado)
+```bash
+python -m venv .venv
+.4venv\Scripts\activate
+```
 
-### Instalación
+### 2) Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/YessCor/EduPredict.git
-   cd EduPredict
-   ```
+---
 
-2. Instalar dependencias:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Cómo ejecutar
 
-### Uso
-
-Iniciar la aplicación:
+### Ejecutar la aplicación (Streamlit)
 ```bash
 streamlit run dashboard.py
 ```
 
-La aplicación se abrirá automáticamente en su navegador en `http://localhost:8501`.
+La app abre en:
+- `http://localhost:8501`
 
-## 📂 Estructura del Proyecto
+---
+
+## Estructura del proyecto
 
 ```
 EduPredict/
-├── dashboard.py           # Aplicación principal de Streamlit
-├── dataset.csv            # Conjunto de datos de estudiantes (1000 registros)
-├── requirements.txt       # Dependencias del proyecto
-├── README.md              # Documentación del proyecto
-└── .gitignore             # Configuración de Git
+├─ dashboard.py            # App principal en Streamlit (UI, gráficos, simulador y métricas)
+├─ pipeline_inteligente.py # Pipeline en Python (carga, limpieza, transformación, entrenamiento y visualización)
+├─ proyecto_3.py          # Notebook exportado (prototipo/experimentos y explicación)
+├─ dataset.csv            # Dataset base (1000 registros aprox.)
+├─ requirements.txt       # Dependencias
+└─ README.md              # Documentación del repositorio
 ```
 
-## 📊 Descripción del Conjunto de Datos (dataset.csv)
+---
 
-El conjunto de datos contiene 1000 registros de estudiantes con las siguientes características:
+## Dataset (`dataset.csv`)
 
-| Característica | Descripción | Tipo |
-|----------------|-------------|------|
-| Promedio | GPA anterior (0-5) | Numérico |
-| Fallas | Número de ausencias | Numérico |
-| Horas_Estudio | Horas de estudio semanales | Numérico |
-| Internet | Acceso a Internet en casa | Categórico |
-| Trabaja | El estudiante trabaja a tiempo parcial | Categórico |
-| Deserta | Estado de deserción (1=Sí, 0=No) | Objetivo |
+El archivo `dataset.csv` contiene columnas:
+- `Promedio`: GPA / promedio anterior (numérico, escala 0–5)
+- `Fallas`: número de ausencias o fallas (numérico)
+- `Horas_Estudio`: horas de estudio semanales (numérico)
+- `Internet`: acceso a Internet en casa (`Si` / `No`)
+- `Trabaja`: el estudiante trabaja a tiempo parcial (`Si` / `No`)
+- `Deserta`: variable objetivo (`1` = Sí deserta, `0` = No)
 
-## 🤖 Modelos de Aprendizaje Automático
+### Codificación usada
+En el código se utiliza `LabelEncoder` para transformar:
+- `Internet` (`Si`/`No` → 0/1)
+- `Trabaja` (`Si`/`No` → 0/1)
 
-El sistema evalúa cuatro modelos de aprendizaje automático:
+**Importante:** en `dashboard.py` se usa un preprocesamiento ligero solo para `Internet` y `Trabaja`.
 
-### 1. Regresión Logística
-- Modelo lineal para clasificación binaria
-- Rápido e interpretable
+---
 
-### 2. Random Forest
-- Ensemble de árboles de decisión
-- Alta precisión con importancia de características
+## Descripción por archivo
 
-### 3. Impulso de Gradiente
-- Aprendizaje secuencial en conjunto
-- Optimizado para el rendimiento predictivo
+### 1) `dashboard.py` (Streamlit)
 
-### 4. Máquina de Vectores de Soporte (SVM)
-- Clasificador de margen máximo
-- Efectivo en espacios de alta dimensión
+Es el punto de entrada de la interfaz. Configura la UI (CSS y estilos), carga datos, entrena un modelo y muestra cuatro secciones en la barra lateral:
 
-## 📈 Rendimiento del Modelo
+1. **Inicio**
+   - Métricas generales: total de estudiantes, tasa de deserción, variables clave.
+   - Tabla con el dataset y etiquetas:
+     - `Deserta = 0` → **Estable**
+     - `Deserta = 1` → **En Riesgo**
 
-El dashboard muestra:
-- Puntajes de precisión para cada modelo
-- Resultados de validación cruzada
-- Análisis de importancia de características
-- Curva ROC para cada modelo
+2. **Análisis Exploratorio**
+   - Gráficos con Plotly:
+     - Dispersión `Promedio` vs `Deserta`
+     - Dispersión `Fallas` vs `Deserta`
+     - Histograma `Horas_Estudio` por clase
 
-## 👥 Miembros
+3. **Simulador de Riesgo**
+   - Sliders/selectores para construir un perfil de estudiante:
+     - Promedio, Fallas, Horas_Estudio
+     - Internet (Si/No), Trabaja (Si/No)
+   - Construye un `DataFrame` con los campos codificados y calcula:
+     - `prob = model_rf.predict_proba(...)`
+   - Umbral:
+     - riesgo si `prob >= 0.5`
+     - muestra probabilidad en % y un indicador visual
 
+4. **Métricas del Modelo**
+   - `accuracy_score` en el conjunto de prueba (split 70/30)
+   - Validación cruzada `cross_val_score` con `cv=5`
+   - Importancia de variables con `model_rf.feature_importances_`
+
+#### Modelo usado en el dashboard
+- `RandomForestClassifier(random_state=42)`
+- Entrenamiento directo sobre las columnas:
+  - `Promedio`, `Fallas`, `Horas_Estudio`, `Internet`, `Trabaja`
+
+---
+
+### 2) `pipeline_inteligente.py` (Pipeline automatizado)
+
+Script en Python (tipo pipeline) que orquesta el flujo:
+
+1. **extraer_datos(file_path='dataset.csv')**
+   - Carga el dataset desde CSV.
+
+2. **validar_calidad(df)**
+   - Revisa nulos.
+   - Si existen nulos, elimina filas con `dropna()`.
+   - Muestra estadísticas descriptivas.
+
+3. **transformar_datos(df)**
+   - Codifica `Internet` y `Trabaja` con `LabelEncoder`.
+   - Crea una feature adicional:
+     - `Indice_Riesgo = Fallas / (Promedio + 0.1)`
+
+4. **entrenar_evaluar_modelo(df)**
+   - Separa `X` y `y` (target: `Deserta`).
+   - Split train/test 70/30 (`random_state=42`).
+   - Entrena `RandomForestClassifier(n_estimators=100, random_state=42)`.
+   - Reporta:
+     - accuracy en prueba
+     - accuracy promedio por validación cruzada (cv=5)
+     - `classification_report`
+
+5. **generar_visualizaciones(...)**
+   - Matriz de confusión
+   - Importancia de características
+   - Boxplot Promedio por clase
+   - Violinplot Fallas por clase
+   - Guarda figura en `pipeline_results.png`
+
+6. **main()**
+   - Ejecuta todo el pipeline con manejo de excepciones.
+
+---
+
+### 3) `proyecto_3.py` (Notebook exportado / experimentos)
+
+Archivo que contiene el contenido de un notebook exportado desde Colab.
+
+Incluye:
+- Descripción del objetivo y variables del dataset.
+- Proceso de preprocesamiento con `LabelEncoder`.
+- Entrenamiento y evaluación inicial (por ejemplo `DecisionTreeClassifier`).
+- Ejemplos de visualizaciones (Promedio vs Deserción, Fallas vs Deserción).
+- Validación cruzada.
+- Comparación entre pipelines (Decision Tree vs Random Forest) y evaluación.
+
+> Nota: este archivo es principalmente un **prototipo/explicación**; el comportamiento del sistema integrado corre en `dashboard.py` y el pipeline en `pipeline_inteligente.py`.
+
+---
+
+## Dependencias (`requirements.txt`)
+
+El proyecto utiliza principalmente:
+- `streamlit`
+- `pandas`, `numpy`
+- `scikit-learn`
+- `plotly`
+- (y en el pipeline) librerías para visualización como `matplotlib` y `seaborn`
+
+Para instalar:
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Consideraciones técnicas / notas
+
+1. **Codificación de categorías**
+   - Tanto `dashboard.py` como `pipeline_inteligente.py` convierten `Internet` y `Trabaja` a numérico.
+
+2. **Feature extra en pipeline**
+   - `pipeline_inteligente.py` agrega `Indice_Riesgo`.
+   - El dashboard **no usa** esa feature extra (usa el conjunto original sin esa expansión).
+
+3. **Umbral de decisión del simulador**
+   - Se considera riesgo cuando `P(Deserta=1) >= 0.5`.
+
+4. **Tamaño de dataset**
+   - Con datasets pequeños, pueden aparecer señales de sobreajuste; por eso el proyecto usa validación cruzada.
+
+---
+
+## Cómo usar el proyecto (resumen)
+1. Instala dependencias.
+2. Ejecuta el dashboard con Streamlit.
+3. Usa las secciones:
+   - Inicio (estado del dataset)
+   - Análisis Exploratorio (gráficos)
+   - Simulador de Riesgo (predicción)
+   - Métricas del Modelo (accuracy, CV, importancias)
+
+---
+
+## Créditos
 - [Yessid Cordero](https://github.com/YessCor)
 - [Bleidys Larios](https://github.com/bleidys16)
 - [Melany Tesillo](https://github.com/mptse)
 - [Emily Monterrosa](https://github.com/emilymontec)
 
-
-## 🤝 Contribuciones
-
-Las contribuciones siempre son bienvenidas! Por favor siga los siguientes pasos:
-
-1. Crear una rama feature (`git checkout -b feature/AmazingFeature`)
-2. Confirmar los cambios (`git commit -m 'Add some AmazingFeature'`)
-3. Push a la rama (`git push origin feature/AmazingFeature`)
-4. Abrir un Pull Request
-
-## 📞 Soporte
-
-Para problemas o preguntas, por favor abra un [issue](issues) section.
-
 ---
 
-**Desarrollado con ❤️ para la comunidad educativa**
+## Soporte
+Para dudas o problemas, revisa los archivos del proyecto y abre un issue en tu repositorio si lo estás usando con GitHub.
+
