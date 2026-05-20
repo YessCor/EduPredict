@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0%2B-red.svg)
-![Scikit-learn](https://img.shields.io/badge/Scikit-learn-0.24%2B-orange.svg)
+![Scikit-learn](https://img.shields.io/badge/ScikitLearn-0.24%2B-orange.svg)
 
 **EduPredict** es una plataforma de **predicción de riesgo de deserción estudiantil** usando **Machine Learning**. Permite:
 - Visualizar análisis exploratorio del dataset.
