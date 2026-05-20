@@ -1,4 +1,4 @@
-# EduPredict 🧠🎓
+# EduPredict 🎓
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0%2B-red.svg)
